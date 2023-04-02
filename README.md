@@ -1,17 +1,14 @@
-JSMN
-====
+# JSMN [FORK] - Lightweight json parser in C
 
-[![Build Status](https://travis-ci.org/zserge/jsmn.svg?branch=master)](https://travis-ci.org/zserge/jsmn)
+This is a forked repo from https://github.com/zserge/jsmn. Most part of the code remains the same as proposed by [@zerge](https://github.com/zserge). However, this fork is focused on make it easier to use in C programs, by implementing it not in a single header, and creating some helper functions.
 
-jsmn (pronounced like 'jasmine') is a minimalistic JSON parser in C.  It can be
-easily integrated into resource-limited or embedded projects.
+## Usage
 
-You can find more information about JSON format at [json.org][1]
+There is a README in the original repo explaining how to use this library. I've made a new example of how to use it, with a visualStudio C console application in the [example folder](./example/SimpleJsonExample/). This example focus on get real data from 3 samples of json files, changing the order of fields, and still getting the right data:
 
-Library sources are available at https://github.com/zserge/jsmn
+[![plot](./example/SimpleJsonExample/terminalOutput.png)](./example/SimpleJsonExample/)
 
-The web page with some information about jsmn can be found at
-[http://zserge.com/jsmn.html][2]
+# README infos from the [original repo](https://github.com/zserge/jsmn):
 
 Philosophy
 ----------
@@ -35,7 +32,6 @@ Features
 * compatible with C89
 * no dependencies (even libc!)
 * highly portable (tested on x86/amd64, ARM, AVR)
-* about 200 lines of code
 * extremely small code footprint
 * API contains only 2 functions
 * no dynamic memory allocation
@@ -47,7 +43,9 @@ Design
 
 The rudimentary jsmn object is a **token**. Let's consider a JSON string:
 
-	'{ "name" : "Jack", "age" : 27 }'
+```json
+'{ "name" : "Jack", "age" : 27 }'
+```
 
 It holds the following tokens:
 
@@ -79,9 +77,7 @@ it possible to use zero-copy techniques.
 Usage
 -----
 
-Download `jsmn.h`, include it, done.
-
-```
+```c
 #include "jsmn.h"
 
 ...
@@ -92,25 +88,12 @@ jsmn_init(&p);
 r = jsmn_parse(&p, s, strlen(s), t, 128); // "s" is the char array holding the json content
 ```
 
-Since jsmn is a single-header, header-only library, for more complex use cases
-you might need to define additional macros. `#define JSMN_STATIC` hides all
-jsmn API symbols by making them static. Also, if you want to include `jsmn.h`
-from multiple C files, to avoid duplication of symbols you may define  `JSMN_HEADER` macro.
-
-```
-/* In every .c file that uses jsmn include only declarations: */
-#define JSMN_HEADER
-#include "jsmn.h"
-
-/* Additionally, create one jsmn.c file for jsmn implementation: */
-#include "jsmn.h"
-```
-
 API
 ---
 
 Token types are described by `jsmntype_t`:
 
+```c
 	typedef enum {
 		JSMN_UNDEFINED = 0,
 		JSMN_OBJECT = 1 << 0,
@@ -118,6 +101,7 @@ Token types are described by `jsmntype_t`:
 		JSMN_STRING = 1 << 2,
 		JSMN_PRIMITIVE = 1 << 3
 	} jsmntype_t;
+```
 
 **Note:** Unlike JSON data types, primitive tokens are not divided into
 numbers, booleans and null, because one can easily tell the type using the
@@ -129,12 +113,14 @@ first character:
 
 Token is an object of `jsmntok_t` type:
 
+```c
 	typedef struct {
 		jsmntype_t type; // Token type
 		int start;       // Token start position
 		int end;         // Token end position
 		int size;        // Number of child (nested) tokens
 	} jsmntok_t;
+```
 
 **Note:** string tokens point to the first character after
 the opening quote and the previous symbol before final quote. This was made 
@@ -142,6 +128,7 @@ to simplify string extraction from JSON data.
 
 All job is done by `jsmn_parser` object. You can initialize a new parser using:
 
+```c
 	jsmn_parser parser;
 	jsmntok_t tokens[10];
 
@@ -151,6 +138,7 @@ All job is done by `jsmn_parser` object. You can initialize a new parser using:
 	// tokens - an array of tokens available
 	// 10 - number of tokens available
 	jsmn_parse(&parser, js, strlen(js), tokens, 10);
+```
 
 This will create a parser, and then it tries to parse up to 10 JSON tokens from
 the `js` string.
@@ -178,5 +166,5 @@ Other info
 This software is distributed under [MIT license](http://www.opensource.org/licenses/mit-license.php),
  so feel free to integrate it in your commercial products.
 
-[1]: http://www.json.org/
-[2]: http://zserge.com/jsmn.html
+- http://www.json.org/
+- http://zserge.com/jsmn.html

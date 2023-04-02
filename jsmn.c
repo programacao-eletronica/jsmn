@@ -26,7 +26,7 @@
    a single header file to a common source and header file, to be more friendly
    to C users. Also, implement new functions that can help find tokens and compare
    them.
-   This version is available at https://github.com/wnoliveira/jsmn 
+   This version is available at https://github.com/programacao-eletronica/jsmn
 */
 
 #include "jsmn.h"
@@ -45,7 +45,7 @@ enum jsmnerr {
  * Allocates a fresh unused token from the token pool.
  */
 static jsmntok_t *jsmn_alloc_token(jsmn_parser *parser, jsmntok_t *tokens,
-                                   const size_t num_tokens) {
+                                   int num_tokens) {
   jsmntok_t *tok;
   if (parser->toknext >= num_tokens) {
     return NULL;
@@ -74,8 +74,8 @@ static void jsmn_fill_token(jsmntok_t *token, const jsmntype_t type,
  * Fills next available token with JSON primitive.
  */
 static int jsmn_parse_primitive(jsmn_parser *parser, const char *js,
-                                const size_t len, jsmntok_t *tokens,
-                                const size_t num_tokens) {
+                                const int len, jsmntok_t *tokens,
+                                const int num_tokens) {
   jsmntok_t *token;
   int start;
 
@@ -132,15 +132,15 @@ found:
  * Fills next token with JSON string.
  */
 static int jsmn_parse_string(jsmn_parser *parser, const char *js,
-                             const size_t len, jsmntok_t *tokens,
-                             const size_t num_tokens) {
+                             const int len, jsmntok_t *tokens,
+                             const int num_tokens) {
   jsmntok_t *token;
 
   int start = parser->pos;
-  
+
   /* Skip starting quote */
   parser->pos++;
-  
+
   for (; parser->pos < len && js[parser->pos] != '\0'; parser->pos++) {
     char c = js[parser->pos];
 
@@ -206,7 +206,7 @@ static int jsmn_parse_string(jsmn_parser *parser, const char *js,
 /**
  * Parse JSON string and fill tokens.
  */
-int jsmn_parse(jsmn_parser *parser, const char *js, const size_t len,
+int jsmn_parse(jsmn_parser *parser, const char *js, int len,
                         jsmntok_t *tokens, const unsigned int num_tokens) {
   int r;
   int i;
@@ -407,12 +407,12 @@ void jsmn_init(jsmn_parser *parser) {
 *   Compares a token in the json object with the string s, returning true
 *   if it is equal.
 */
-bool json_equals(const char *json, jsmntok_t *tok, const char *s) 
+bool json_equals(const char *json, jsmntok_t *tok, const char *s)
 {
     if((json != NULL) && (tok != NULL) && (s != NULL))
     {
         if( tok->type == JSMN_STRING && (int)strlen(s) == tok->end - tok->start &&
-            strncmp(json + tok->start, s, tok->end - tok->start) == 0) 
+            strncmp(json + tok->start, s, tok->end - tok->start) == 0)
         {
             return true;
         }

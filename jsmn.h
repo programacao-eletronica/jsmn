@@ -26,7 +26,7 @@
    a single header file to a common source and header file, to be more friendly
    to C users. Also, implement new functions that can help find tokens and compare
    them.
-   This version is available at https://github.com/wnoliveira/jsmn 
+   This version is available at https://github.com/programacao-eletronica/jsmn
 */
 #ifndef JSMN_H
 #define JSMN_H
@@ -74,8 +74,21 @@ typedef struct jsmn_parser {
   int toksuper;         /* superior token node, e.g. parent object or array */
 } jsmn_parser;
 
+// Added type
+
+/** 
+ * It helps to process token objects
+*/
+typedef struct 
+{
+    jsmntok_t * token;
+    unsigned int startIndex;
+    unsigned int endIndex;
+} jsmnSubObj_t;
+
+
 void jsmn_init(jsmn_parser *parser);
-int jsmn_parse(jsmn_parser *parser, const char *js, const size_t len,
+int jsmn_parse(jsmn_parser *parser, const char *js, const int len,
                         jsmntok_t *tokens, const unsigned int num_tokens);
 // Added functions
 bool json_equals(const char *json, jsmntok_t *tok, const char *s);
