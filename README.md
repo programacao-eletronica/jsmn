@@ -4,9 +4,17 @@ This is a forked repo from https://github.com/zserge/jsmn. Most part of the code
 
 ## Usage
 
-There is a README in the original repo explaining how to use this library. I've made a new example of how to use it, with a visualStudio C console application in the [example folder](./example/SimpleJsonExample/). This example focus on get real data from 3 samples of json files, changing the order of fields, and still getting the right data:
+There is a README in the original repo explaining how to use this library. I've made a new example of how to use it, with a visualStudio C console application in the [example folder](./example/SimpleJsonExample/SimpleJsonExample.c). This example focus on get real data from 3 samples of json files, changing the order of fields, and still getting the right data:
 
-[![plot](./example/SimpleJsonExample/terminalOutput.png)](./example/SimpleJsonExample/)
+[![plot](./example/SimpleJsonExample/terminalOutput.png)](./example/SimpleJsonExample/SimpleJsonExample.c)
+
+## Tutorial
+
+For portuguese speakers only...
+
+Confira [neste post](https://programacaoeletronica.wordpress.com/2023/06/18/interpretando-arquivos-json-em-c/) do Programação Eletrônica o tutorial em vídeo sobre a utilização deste fork do jsmn!
+
+![plot](https://avatars.githubusercontent.com/u/93890854?s=64&v=4)
 
 # README infos from the [original repo](https://github.com/zserge/jsmn):
 

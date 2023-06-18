@@ -33,7 +33,7 @@
 #define dMAX_EXPECTED_JSON_TOKENS       64     
     
 /// Enables or disables dynamic alloc
-#define dEXAMPLE_WITH_DYNAMIC_ALLOC     false
+#define dEXAMPLE_WITH_DYNAMIC_ALLOC     true
 
 /// Select the json input. Right now, we have 3 different samples:
 /// 1 - Json with all data in the expected order
@@ -236,6 +236,14 @@ int main()
             }
         }
     } while (false);
+
+#if dEXAMPLE_WITH_DYNAMIC_ALLOC == true
+    // Check if the malloc has done correctly
+    if (jsonTokens != NULL)
+    {
+        free(jsonTokens);
+    }
+#endif
 
     // Print the results
     printf("\r\n");
